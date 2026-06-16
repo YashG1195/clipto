@@ -1,0 +1,76 @@
+// ============================================================
+// Prisma Schema — kuick.io clone (clipto)
+// Provider: PostgreSQL via Neon / Supabase
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────
+
+enum ShareType {
+  TEXT
+  FILE
+  URL
+}
+
+// ─────────────────────────────────────────────
+// Share Model
+// Stores every type of share in one table.
+// slug is a 6-char nanoid used as the public URL key.
+// ─────────────────────────────────────────────
+
+model Share {
+  /// Primary key — CUID for internal use
+  id            String    @id @default(cuid())
+
+  /// Public short URL key (e.g. "ab12Xy") — must be unique
+  slug          String    @unique
+
+  /// Determines how this share is rendered/handled
+  type          ShareType
+
+  /// TEXT shares: the raw text content
+  /// URL shares: the destination URL to redirect to
+  content       String?   @db.Text
+
+  /// FILE shares: the R2 / S3 object key (path in bucket)
+  storageKey    String?
+
+  /// FILE shares: original file name (e.g. "report.pdf")
+  fileName      String?
+
+  /// FILE shares: file size in bytes (max 100 MB = 104_857_600)
+  fileSize      Int?
+
+  /// FILE shares: MIME type (e.g. "application/pdf", "image/png")
+  mimeType      String?
+
+  /// When this share was created
+  createdAt     DateTime  @default(now())
+
+  /// When this share expires — null means it never expires
+  expiresAt     DateTime?
+
+  /// How many times this share has been viewed / downloaded
+  downloadCount Int       @default(0)
+
+  /// SHA-256 hash of the uploader's IP for abuse tracking (never stored raw)
+  ipHash        String?
+
+  /// Optional: tie to a user account in the future (null = anonymous)
+  userId        String?
+
+  // Indexes for fast slug lookups and expiry sweeps
+  @@index([slug])
+  @@index([expiresAt])
+  @@index([userId])
+}
