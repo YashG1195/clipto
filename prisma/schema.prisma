@@ -63,6 +63,10 @@ model Share {
   /// How many times this share has been viewed / downloaded
   downloadCount Int       @default(0)
 
+  /// FILE shares only: stamped when client confirms the upload to R2 succeeded.
+  /// Null = upload pending or never completed (share is not yet publicly accessible).
+  confirmedAt   DateTime?
+
   /// SHA-256 hash of the uploader's IP for abuse tracking (never stored raw)
   ipHash        String?
 
