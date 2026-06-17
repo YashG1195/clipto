@@ -11,7 +11,7 @@ import {
   FileText, FileImage, FileVideo, FileAudio,
   FileArchive, FileCode, File,
 } from "lucide-react";
-import { formatFileSize, getMimeTypeCategory } from "@/lib/slug";
+import { formatFileSize, getMimeTypeCategory } from "@/lib/utils";
 
 interface FileShareViewProps {
   slug: string;

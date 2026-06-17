@@ -11,7 +11,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { redirect }          from "next/navigation";
 import { BarChart2, Eye, HardDrive, Plus } from "lucide-react";
 import { prisma }       from "@/lib/prisma";
-import { formatFileSize } from "@/lib/slug";
+import { formatFileSize } from "@/lib/utils";
 import SharesTable, { type ShareRow } from "./SharesTable";
 import type { Metadata } from "next";
 

@@ -10,7 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { UploadCloud, X, FileText, Loader2 } from "lucide-react";
 import ExpirySelector, { type ExpiresIn } from "./ExpirySelector";
 import ResultCard from "./ResultCard";
-import { formatFileSize } from "@/lib/slug";
+import { formatFileSize } from "@/lib/utils";
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
 

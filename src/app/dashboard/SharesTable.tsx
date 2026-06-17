@@ -11,7 +11,7 @@ import {
   Copy, Check, Trash2, ExternalLink,
   Loader2,
 } from "lucide-react";
-import { formatFileSize } from "@/lib/slug";
+import { formatFileSize } from "@/lib/utils";
 
 // ─────────────────────────────────────────────────────────────
 // Types
